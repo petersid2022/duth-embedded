@@ -12,4 +12,4 @@ extern int current_u[N][M];
 extern int current_v[N][M];
 #pragma arm section
 
-#endif // OPTS_H__
+#endif /* OPTS_H__ */

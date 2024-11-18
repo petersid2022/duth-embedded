@@ -4,4 +4,4 @@
 void read_file_bytes(const char *file_name);
 void write_file_bytes(const char *file_name);
 
-#endif // FILE_H__
+#endif /* FILE_H__ */

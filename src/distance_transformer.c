@@ -1,5 +1,4 @@
 #include <stdbool.h>
-#include <stdlib.h>
 
 #include "opts.h"
 
@@ -61,8 +60,8 @@ void distance_transformer() {
             k++;
     }
 
-    for (int i = 0; i < N; i++) {
-        for (int j = 0; j < M; j++) {
+    for (i = 0; i < N; i++) {
+        for (j = 0; j < M; j++) {
             current_y[i][j] = distance[i][j];
         }
     }

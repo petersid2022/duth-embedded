@@ -2,10 +2,10 @@
 #include "file.h"
 #include "opts.h"
 
-// Luminance
+/* Luminance */
 int current_y[N][M];
 
-// Chrominance (color information)
+/* Chrominance (color information) */
 int current_u[N][M];
 int current_v[N][M];
 

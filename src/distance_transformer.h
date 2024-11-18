@@ -3,4 +3,4 @@
 
 int distance_transformer();
 
-#endif // DISTANCE_TRANSFORMER_H__
+#endif /* DISTANCE_TRANSFORMER_H__ */
