@@ -1,0 +1,50 @@
+---
+BasedOnStyle: LLVM
+
+# Basic indentation settings
+IndentWidth: 4
+TabWidth: 4
+UseTab: Never
+
+# Alignment settings
+AlignAfterOpenBracket: DontAlign
+AlignConsecutiveAssignments: false  # Disable alignment of consecutive assignments
+AlignConsecutiveDeclarations: false  # Disable alignment of consecutive declarations
+AlignEscapedNewlines: Left
+AlignOperands: false
+AlignTrailingComments: true
+
+# Bracing and spacing settings
+BreakBeforeBraces: Attach
+SpaceAfterCStyleCast: true
+SpaceBeforeParens: ControlStatements
+SpacesInParentheses: false
+SpacesInSquareBrackets: false
+SpaceInEmptyParentheses: false
+
+# Pointer alignment
+PointerAlignment: Right
+
+# Function and constructor settings
+AllowShortFunctionsOnASingleLine: InlineOnly
+AlwaysBreakAfterReturnType: None
+BreakConstructorInitializers: AfterColon
+
+# Binary operators and parameters
+BreakBeforeBinaryOperators: None
+AllowAllParametersOfDeclarationOnNextLine: false
+
+# Include and comment settings
+SortIncludes: true
+IncludeCategories:
+  - Regex: ^<.*\.h>
+    Priority: 1
+  - Regex: ^"(.*\.h|.*\.hpp)"
+    Priority: 2
+ReflowComments: true
+
+# Column limit
+ColumnLimit: 100
+
+# Namespace indentation
+NamespaceIndentation: None
