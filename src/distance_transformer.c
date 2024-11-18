@@ -1,5 +1,3 @@
-#include <stdbool.h>
-
 #include "opts.h"
 
 void distance_transformer() {
