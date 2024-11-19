@@ -3,8 +3,10 @@
 void distance_transformer() {
     int input[N][M];
     int distance[N][M];
-    int i, j, k = 1;
     int transformed = 0;
+    int k = 1;
+    int i = 0;
+    int j = 0;
 
     for (i = 0; i < N; i++) {
         for (j = 0; j < M; j++) {
