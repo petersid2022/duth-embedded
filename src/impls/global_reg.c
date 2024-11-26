@@ -20,61 +20,73 @@ void distance_transformer() {
 
     for (i = 0; i < N; i += 4) {
         for (j = 0; j < M; j += 4) {
-	    temp = (input[i][j] == 0);
-	    distance[i][j] = temp ? 0 : -1;
+            temp = (input[i][j] == 0);
+            distance[i][j] = temp ? 0 : -1;
 
-	    temp = (input[i][j + 1] == 0);
-	    if (j + 1 < M) distance[i][j + 1] = temp ? 0 : -1;
+            temp = (input[i][j + 1] == 0);
+            if (j + 1 < M)
+                distance[i][j + 1] = temp ? 0 : -1;
 
-	    temp = (input[i][j + 2] == 0);
-	    if (j + 2 < M) distance[i][j + 2] = temp ? 0 : -1;
+            temp = (input[i][j + 2] == 0);
+            if (j + 2 < M)
+                distance[i][j + 2] = temp ? 0 : -1;
 
-	    temp = (input[i][j + 3] == 0);
-	    if (j + 3 < M) distance[i][j + 3] = temp ? 0 : -1;
+            temp = (input[i][j + 3] == 0);
+            if (j + 3 < M)
+                distance[i][j + 3] = temp ? 0 : -1;
         }
-	if (i + 1 < N) {
+        if (i + 1 < N) {
             for (j = 0; j < M; j += 4) {
-	        temp = (input[i + 1][j] == 0);
-	        distance[i + 1][j] = temp ? 0 : -1;
+                temp = (input[i + 1][j] == 0);
+                distance[i + 1][j] = temp ? 0 : -1;
 
-	        temp = (input[i + 1][j + 1] == 0);
-	        if (j + 1 < M) distance[i + 1][j + 1] = temp ? 0 : -1;
+                temp = (input[i + 1][j + 1] == 0);
+                if (j + 1 < M)
+                    distance[i + 1][j + 1] = temp ? 0 : -1;
 
-	        temp = (input[i + 1][j + 2] == 0);
-	        if (j + 2 < M) distance[i + 1][j + 2] = temp ? 0 : -1;
+                temp = (input[i + 1][j + 2] == 0);
+                if (j + 2 < M)
+                    distance[i + 1][j + 2] = temp ? 0 : -1;
 
-	        temp = (input[i + 1][j + 3] == 0);
-	        if (j + 3 < M) distance[i + 1][j + 3] = temp ? 0 : -1;
+                temp = (input[i + 1][j + 3] == 0);
+                if (j + 3 < M)
+                    distance[i + 1][j + 3] = temp ? 0 : -1;
             }
         }
-	if (i + 2 < N) {
+        if (i + 2 < N) {
             for (j = 0; j < M; j += 4) {
-	        temp = (input[i + 2][j] == 0);
-	        distance[i + 2][j] = temp ? 0 : -1;
+                temp = (input[i + 2][j] == 0);
+                distance[i + 2][j] = temp ? 0 : -1;
 
-	        temp = (input[i + 2][j + 1] == 0);
-	        if (j + 1 < M) distance[i + 2][j + 1] = temp ? 0 : -1;
+                temp = (input[i + 2][j + 1] == 0);
+                if (j + 1 < M)
+                    distance[i + 2][j + 1] = temp ? 0 : -1;
 
-	        temp = (input[i + 2][j + 2] == 0);
-	        if (j + 2 < M) distance[i + 2][j + 2] = temp ? 0 : -1;
+                temp = (input[i + 2][j + 2] == 0);
+                if (j + 2 < M)
+                    distance[i + 2][j + 2] = temp ? 0 : -1;
 
-	        temp = (input[i + 2][j + 3] == 0);
-	        if (j + 3 < M) distance[i + 2][j + 3] = temp ? 0 : -1;
+                temp = (input[i + 2][j + 3] == 0);
+                if (j + 3 < M)
+                    distance[i + 2][j + 3] = temp ? 0 : -1;
             }
         }
-	if (i + 3 < N) {
+        if (i + 3 < N) {
             for (j = 0; j < M; j += 4) {
-	        temp = (input[i + 3][j] == 0);
-	        distance[i + 3][j] = temp ? 0 : -1;
+                temp = (input[i + 3][j] == 0);
+                distance[i + 3][j] = temp ? 0 : -1;
 
-	        temp = (input[i + 3][j + 1] == 0);
-	        if (j + 1 < M) distance[i + 3][j + 1] = temp ? 0 : -1;
+                temp = (input[i + 3][j + 1] == 0);
+                if (j + 1 < M)
+                    distance[i + 3][j + 1] = temp ? 0 : -1;
 
-	        temp = (input[i + 3][j + 2] == 0);
-	        if (j + 2 < M) distance[i + 3][j + 2] = temp ? 0 : -1;
+                temp = (input[i + 3][j + 2] == 0);
+                if (j + 2 < M)
+                    distance[i + 3][j + 2] = temp ? 0 : -1;
 
-	        temp = (input[i + 3][j + 3] == 0);
-	        if (j + 3 < M) distance[i + 3][j + 3] = temp ? 0 : -1;
+                temp = (input[i + 3][j + 3] == 0);
+                if (j + 3 < M)
+                    distance[i + 3][j + 3] = temp ? 0 : -1;
             }
         }
     }
@@ -105,7 +117,7 @@ void distance_transformer() {
                         transformed = 1;
                     }
                 }
-		if (j + 1 < M) {
+                if (j + 1 < M) {
                     if (distance[i][j + 1] == k - 1) {
                         if (i > 0 && distance[i - 1][j + 1] == -1) {
                             distance[i - 1][j + 1] = k;

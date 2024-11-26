@@ -48,10 +48,10 @@ void distance_transformer() {
                 }
             }
         }
-        
+
         if (!transformed)
             break;
-        
+
         if (k < 255)
             k++;
     }

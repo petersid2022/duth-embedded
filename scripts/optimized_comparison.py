@@ -10,7 +10,8 @@ techniques = [
     "Loop Collapsing",
     "Loop Unrolling",
     "Loop tiling",
-    "Global CPU Registers",
+    "CPU Registers",
+    "Lookup table",
 ]
 parameters = ["Instructions", "Core Cycles", "S-Cycles", "N-Cycles", "I-Cycles"]
 data = [
@@ -20,6 +21,7 @@ data = [
     [344656616, 611510407, 418524011, 140476233, 52510163],  # Loop Unrolling
     [434536556, 758997515, 537110039, 169279815, 52607661],  # Loop tiling
     [342889121, 609742370, 417724929, 129784044, 52233397],  # Global CPU Registers
+    [343068334, 608002829, 416944765, 138824667, 52233397],  # Lookup tablee
 ]
 data = np.array(data)
 
