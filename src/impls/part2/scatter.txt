@@ -1,22 +1,16 @@
-ROM 0x00000000 0x00003024
+ROM 0x00000000 0x00002eff
 {
-	ROM 0x00000000 0x00003024
+	ROM 0x00000000 0x00002ef0
 	{
 		*.o ( +RO )
 	}
-	SECTION1 0x00003024 0x00000010
+	DRAM 0x00002ef0 0x002d8934
 	{
-		* ( .rwdata )
-		*.o ( +RW )
+		* ( .dram )
+		*.o ( +RW, +ZI )
 	}
-	SECTION2 0x00003034 0x0038503c
+	CACHE 0x002db7f0 0x000bfff8
 	{
-		* ( .arrays )
-		*.o ( +ZI )
-	}
-	CACHE 0x00388070 0x00389070
-	{
-		* ( .window_buffer )
-		*.o ( +RW )
+		* ( .cache )
 	}
 }
