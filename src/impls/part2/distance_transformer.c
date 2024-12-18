@@ -2,62 +2,44 @@
 
 #include "opts.h"
 
-#define WINDOW_SIZE 16
-#define PADDING 1
+__global_reg(1) int i; // r4
+__global_reg(2) int j; // r5
+__global_reg(3) int k; // r6
+__global_reg(4) int b; // r7
 
-__global_reg(1) int i; /* r4 */
-__global_reg(2) int j; /* r5 */
-
-#pragma arm section rwdata=".rwdata"
-__align(4) static int f[2] = {-1, 0};
-__align(4) static int k = 1;
-__align(4) static int temp = 0;
+#pragma arm section rwdata=".dram"
+__align(4) int f[2] = {-1, 0};
 #pragma arm section
 
-#pragma arm section zidata=".arrays"
-__align(4) static int input[N][M];
-__align(4) static int distance[N][M];
+#pragma arm section zidata=".cache"
+__align(4) int buffer1[4][M];
+__align(4) int buffer2[4][M];
+__align(4) int distance[N][M];
 #pragma arm section
 
-#pragma arm section zidata=".window_buffer"
-__align(4) static int temp_buffer[WINDOW_SIZE + 2*PADDING][WINDOW_SIZE + 2*PADDING];
-#pragma arm section
-
-static void process_window(int start_i, int start_j) {
-    int local_i, local_j;
-    int window_height = WINDOW_SIZE;
-    int window_width = WINDOW_SIZE;
-    
-    if (start_i + WINDOW_SIZE > N) window_height = N - start_i;
-    if (start_j + WINDOW_SIZE > M) window_width = M - start_j;
-    
-    for(local_i = 0; local_i < window_height; local_i++) {
-        for(local_j = 0; local_j < window_width; local_j++) {
-            temp_buffer[local_i + PADDING][local_j + PADDING] = input[start_i + local_i][start_j + local_j];
-        }
+__inline void calculate_distance(int b) {
+    for (j = 0; j < M; j += 4) {
+        buffer2[i + b][j] = f[!buffer1[b][j]];
+        if (j + 1 < M) buffer2[i + b][j + 1] = f[!buffer1[b][j + 1]];
+        if (j + 2 < M) buffer2[i + b][j + 2] = f[!buffer1[b][j + 2]];
+        if (j + 3 < M) buffer2[i + b][j + 3] = f[!buffer1[b][j + 3]];
     }
-    
-    for(local_i = 0; local_i < window_height; local_i++) {
-        for(local_j = 0; local_j < window_width; local_j += 4) {
-            int global_i = start_i + local_i;
-            int global_j = start_j + local_j;
-            
-            temp = !input[global_i][global_j];
-            distance[global_i][global_j] = f[temp];
-            
-            if(local_j + 1 < window_width) {
-                temp = !input[global_i][global_j + 1];
-                distance[global_i][global_j + 1] = f[temp];
-            }
-            
-            if(local_j + 2 < window_width) {
-                temp = !input[global_i][global_j + 2];
-                distance[global_i][global_j + 2] = f[temp];
-            }
-            
-            if(local_j + 3 < window_width) {
-                temp = !input[global_i][global_j + 3];
-                distance[global_i][global_j + 3] = f[temp];
+}
+
+__inline void check_neighbors(int b) {
+    for (j = 0; j < M; j += 2) {
+        if (buffer2[i + b][j] == k - 1) {
+            if (i + b > 0 && buffer2[i + b - 1][j] == -1) buffer2[i + b - 1][j] = k;
+            if (i + b < (N - 1) && buffer2[i + b + 1][j] == -1) buffer2[i + b + 1][j] = k;
+            if (j > 0 && buffer2[i + b][j - 1] == -1) buffer2[i + b][j - 1] = k;
+            if (j < (M - 1) && buffer2[i + b][j + 1] == -1) buffer2[i + b][j + 1] = k;
+        }
+        if (j + 1 < M) {
+            if (buffer2[i + b][j + 1] == k - 1) {
+                if (i + b > 0 && buffer2[i + b - 1][j + 1] == -1) buffer2[i + b - 1][j + 1] = k;
+                if (i + b < (N - 1) && buffer2[i + b + 1][j + 1] == -1) buffer2[i + b + 1][j + 1] = k;
+                if (j > -1 && buffer2[i + b][j] == -1) buffer2[i + b][j] = k;
+                if (j < (M - 2) && buffer2[i + b][j + 2] == -1) buffer2[i + b][j + 2] = k;
             }
         }
     }
@@ -65,59 +47,22 @@ static void process_window(int start_i, int start_j) {
 
 #pragma Otime
 void distance_transformer() {
-    memcpy(input, current_y, N * M * sizeof(int));
+    for (i = 0; i < N; i += 4) {
+        memcpy(buffer1, &current_y[i][0], 4 * M * sizeof(int));
 
-    for(i = 0; i < N; i += WINDOW_SIZE) {
-        for(j = 0; j < M; j += WINDOW_SIZE) {
-            process_window(i, j);
+        calculate_distance(0);
+	calculate_distance(1);
+	calculate_distance(2);
+	calculate_distance(3);
+
+	for (k = 1; k < 255; ++k) {
+	    check_neighbors(0);
+	    check_neighbors(1);
+	    check_neighbors(2);
+	    check_neighbors(3);
         }
-    }
 
-LOOP:
-    for (i = 0; i < N; i++) {
-        for (j = 0; j < M; j += 2) {
-            if (distance[i][j] == k - 1) {
-                if (i > 0 && distance[i - 1][j] == -1) {
-                    distance[i - 1][j] = k;
-                }
-
-                if (i < N - 1 && distance[i + 1][j] == -1) {
-                    distance[i + 1][j] = k;
-                }
-
-                if (j > 0 && distance[i][j - 1] == -1) {
-                    distance[i][j - 1] = k;
-                }
-
-                if (j < M - 1 && distance[i][j + 1] == -1) {
-                    distance[i][j + 1] = k;
-                }
-            }
-            if (j + 1 < M) {
-                if (distance[i][j + 1] == k - 1) {
-                    if (i > 0 && distance[i - 1][j + 1] == -1) {
-                        distance[i - 1][j + 1] = k;
-                    }
-
-                    if (i < N - 1 && distance[i + 1][j + 1] == -1) {
-                        distance[i + 1][j + 1] = k;
-                    }
-
-                    if (j > -1 && distance[i][j] == -1) {
-                        distance[i][j] = k;
-                    }
-
-                    if (j < M - 2 && distance[i][j + 2] == -1) {
-                        distance[i][j + 2] = k;
-                    }
-                }
-            }
-        }
-    }
-
-    if (k < 255) {
-        k++;
-        goto LOOP;
+	memcpy(distance, &buffer2[i][0], 4 * M * sizeof(int));
     }
 
     memcpy(current_y, distance, N * M * sizeof(int));
