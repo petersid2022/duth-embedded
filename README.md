@@ -5,6 +5,7 @@ Distance Transformation based on object's boundaries (Manhattan/Taxicab geometry
 ## Resources
 - [Taxicab geometry](https://en.wikipedia.org/wiki/Taxicab_geometry)
 - [The Distance Transform and its Computation - An Introduction](https://arxiv.org/pdf/2106.03503)
+- [ARM: Memory Hierarchy](https://developer.arm.com/documentation/den0042/a/Caches/Memory-hierarchy)
 
 ![](https://github.com/petersid2022/duth-embedded/blob/f928361d01e6c233e093f7c4e1ac98959d9c5daf/scripts/optimized_comparison.png)
 
