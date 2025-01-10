@@ -1,0 +1,20 @@
+ROM 0x00000000 0x0000dffc
+{
+	ROM 0x00000000 0x0000dffc
+	{
+		*.o ( +RO )
+	}
+	DRAM 0x0000dffc 0x002d8934
+	{
+		* ( .dram )
+		*.o ( +RW, +ZI )
+	}
+	L1 0x002e6930 0x000bfff8
+	{
+		* ( .L1 )
+	}
+	L2 0x003a6928 0x00fffff8
+	{
+		* ( .L2 )
+	}
+}
