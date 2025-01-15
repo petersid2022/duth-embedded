@@ -4,7 +4,7 @@
 
 /* Luminance */
 int current_y[N][M];
-        
+
 /* Chrominance (color information) */
 int current_u[N][M];
 int current_v[N][M];

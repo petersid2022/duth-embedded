@@ -1,5 +1,5 @@
-#include <string.h>
 #include <stdio.h>
+#include <string.h>
 #include "opts.h"
 
 __global_reg(1) int i; // r4
@@ -10,7 +10,7 @@ __global_reg(5) int a; // r8 (buffer counter)
 __global_reg(6) int c; // r9 (distance counter)
 __global_reg(7) int d; // r10 (block counter)
 
-#pragma arm section rwdata=".dram"
+#pragma arm section rwdata = ".dram"
 __align(8) int x = 0;
 __align(8) int y = 0;
 __align(8) int bi = 0;
@@ -20,11 +20,11 @@ __align(8) int global_y = 0;
 __align(8) int f[2] = {-1, 0};
 #pragma arm section
 
-#pragma arm section zidata=".L1"
+#pragma arm section zidata = ".L1"
 __align(8) int block[ROWS][ROWS];
 #pragma arm section
 
-#pragma arm section zidata=".L2"
+#pragma arm section zidata = ".L2"
 __align(8) int distance[N][M];
 __align(8) int buffer[TILE_ROWS][M];
 #pragma arm section
@@ -76,33 +76,49 @@ LOOP:
         for (j = 0; j < M; j += 2) {
             c++;
             if (distance[i][j] == k - 1) {
-                if (i > 0) c++;
-                if (i > 0 && distance[i - 1][j] == -1) distance[i - 1][j] = k;
+                if (i > 0)
+                    c++;
+                if (i > 0 && distance[i - 1][j] == -1)
+                    distance[i - 1][j] = k;
 
-                if (i < N - 1) c++;
-                if (i < N - 1 && distance[i + 1][j] == -1) distance[i + 1][j] = k;
+                if (i < N - 1)
+                    c++;
+                if (i < N - 1 && distance[i + 1][j] == -1)
+                    distance[i + 1][j] = k;
 
-                if (j > 0) c++;
-                if (j > 0 && distance[i][j - 1] == -1) distance[i][j - 1] = k;
+                if (j > 0)
+                    c++;
+                if (j > 0 && distance[i][j - 1] == -1)
+                    distance[i][j - 1] = k;
 
-                if (j < M - 1) c++;
-                if (j < M - 1 && distance[i][j + 1] == -1) distance[i][j + 1] = k;
+                if (j < M - 1)
+                    c++;
+                if (j < M - 1 && distance[i][j + 1] == -1)
+                    distance[i][j + 1] = k;
             }
 
             if (j + 1 < M) {
                 c++;
                 if (distance[i][j + 1] == k - 1) {
-                    if (i > 0) c++;
-                    if (i > 0 && distance[i - 1][j + 1] == -1) distance[i - 1][j + 1] = k;
+                    if (i > 0)
+                        c++;
+                    if (i > 0 && distance[i - 1][j + 1] == -1)
+                        distance[i - 1][j + 1] = k;
 
-                    if (i < N - 1) c++;
-                    if (i < N - 1 && distance[i + 1][j + 1] == -1) distance[i + 1][j + 1] = k;
+                    if (i < N - 1)
+                        c++;
+                    if (i < N - 1 && distance[i + 1][j + 1] == -1)
+                        distance[i + 1][j + 1] = k;
 
-                    if (j > -1) c++;
-                    if (j > -1 && distance[i][j] == -1) distance[i][j] = k;
+                    if (j > -1)
+                        c++;
+                    if (j > -1 && distance[i][j] == -1)
+                        distance[i][j] = k;
 
-                    if (j < M - 2) c++;
-                    if (j < M - 2 && distance[i][j + 2] == -1) distance[i][j + 2] = k;
+                    if (j < M - 2)
+                        c++;
+                    if (j < M - 2 && distance[i][j + 2] == -1)
+                        distance[i][j + 2] = k;
                 }
             }
         }

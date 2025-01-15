@@ -5,7 +5,7 @@
 __global_reg(1) int i; /* r4 */
 __global_reg(2) int j; /* r5 */
 
-#pragma arm section rwdata=".rwdata"
+#pragma arm section rwdata = ".rwdata"
 __align(4) static int f[2] = {-1, 0};
 __align(4) static int k = 1;
 __align(4) static int temp = 0;
